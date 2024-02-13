@@ -1,8 +1,11 @@
 import express from "express";
-import { Sequelize } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import { Music } from "./models/music.model.js";
 import { sequelize } from "./config.js";
 import musicRouter from "./routes/music.route.js";
+import userRouter from "./routes/users.route.js";
+
+// app.post("")
 // const sequelize = new Sequelize(
 //   "postgres://postgres:Password@1@localhost:5432/zuci"
 // );
@@ -29,6 +32,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/music", musicRouter);
+app.use("/users", userRouter);
 
 // app.get("/music", getAllMusic());
 
@@ -46,27 +50,48 @@ app.use("/music", musicRouter);
 //   response.send(getAllAlbum);
 // });
 
-// app.get("/music/:id", getMusicByID());
+// app.get("/musics", async function (request, response) {
+//   var arr = [];
+//   const searchTerm = request.query.search;
+//   console.log(searchTerm);
+//   const arrayOfObjects = await Music.findAll();
+//   // console.log(arrayOfObjects);
 
-// app.post("/music", createMusic());
+//   let found = false;
+//   // response.send(Object.values(arrayOfObjects[0]));
 
-// app.delete("/music/:id", deleteUserByID());
+//   for (var obj of arrayOfObjects) {
+//     for (var value of Object.values(obj.toJSON())) {
+//       // console.log(Object.values(obj));
 
-// app.put("/music/:id", updateMusicByID());
+//       if (value === searchTerm) {
+//         // console.log(`Found ${searchTerm} in the array of objects.`);
+//         // response.send(obj.toJSON());
 
-app.get("/music/search", (req, res) => {
-  const searchTerm = req.query.search;
-  if (!searchTerm) {
-    return res.status(400).json({ error: "No search term provided" });
-  }
+//         arr.push(obj.toJSON());
+//         found = true;
+//       }
+//     }
+//   }
+//   if (!found) {
+//     response.send({ msg: "Not found" });
+//   } else {
+//     response.send(arr);
+//   }
+// });
 
-  // Search the database for books related to Shakespeare
-  const results = musicDatabase.filter((music) =>
-    music.author.toLowerCase().includes("shakespeare")
-  );
-
-  res.json(results);
-});
+// app.get("/musics", async function (request, response) {
+//   var arr = [];
+//   const searchTerm = request.query.search;
+//   console.log(searchTerm);
+//   const arrayOfObjects = await Music.findAll({
+//     where: {
+//       artist: { [Op.like]: `%${searchTerm}%` },
+//     },
+//   });
+//   // response.send(arrayOfObjects);
+//   console.log(arrayOfObjects.toJSON());
+// });
 
 const PORT = 4000;
 app.get("/", function (request, response) {
