@@ -9,6 +9,7 @@ import { v2 as cloudinary } from "cloudinary";
 import path from "path";
 import usersService from "./services/users.service.js";
 import { UserToken } from "./models/userToken.model.js";
+import { seedData } from "./written.js";
 
 // app.post("")
 // const sequelize = new Sequelize(
@@ -32,6 +33,8 @@ try {
 //   previewURL: "https://youtu.be/814PoHKDBV4?si=6RPMqmnpdFdWuQbf",
 //   popularity: 79,
 // });
+
+// await seedData();
 
 const app = express();
 app.use(express.json());

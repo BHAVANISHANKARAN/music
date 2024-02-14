@@ -1,19 +1,21 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config.js";
+import { UserDetails } from "./users.model.js";
 
 const UserToken = sequelize.define(
   "UserTokens",
   {
     // Model attributes are defined here
-    userID: {
+    user_id: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
     token: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
-    expired: {
+    expiry: {
       type: DataTypes.STRING,
       defaultValue: "No",
     },
@@ -22,8 +24,10 @@ const UserToken = sequelize.define(
     // Other model options go here
   }
 );
-
+UserDetails.hasMany(UserToken, { onDelete: "cascade", hooks: true });
+UserDetails.hasMany(UserToken, { foreignKey: "user_id" });
+UserToken.belongsTo(UserDetails, { foreignKey: "user_id" });
 // `sequelize.define` also returns the model
-// console.log(UserDetails === sequelize.models.User); // true
+// console.log(UserToken === sequelize.models.UserToken);
 
 export { UserToken };

@@ -7,7 +7,7 @@ async function createUserQuery({ username, password }) {
     return await UserDetails.create({ username, password });
   } catch (error) {
     // return { msg: error.errors.map((val) => val.message).join() };
-    return { msg: error.errors.map((val) => val.message).join() };
+    return { msg: error };
   }
 }
 
@@ -22,7 +22,7 @@ async function getUserService() {
 }
 
 async function addToken(userID, token) {
-  return await UserToken.create({ userID, token });
+  return await UserToken.create({ user_id: userID, token });
 }
 
 async function updateAvatar(url, userID) {
@@ -44,7 +44,32 @@ async function getIDByToken(tokenKey) {
 }
 
 async function updateExpiry(id) {
-  return await UserToken.update({ expired: "yes" }, { where: { userID: id } });
+  return await UserToken.update({ expiry: "yes" }, { where: { user_id: id } });
+}
+
+async function sessionCheckToken(token) {
+  return await UserToken.findOne({
+    where: {
+      token: token,
+      expiry: "No",
+    },
+  });
+}
+
+async function checkingRoleID(userid) {
+  return await UserDetails.findOne({
+    where: {
+      id: userid,
+    },
+  });
+}
+
+async function distoryMovieDataByID(id) {
+  return await UserDetails.destroy({
+    where: {
+      id: id,
+    },
+  });
 }
 
 export default {
@@ -55,4 +80,7 @@ export default {
   updateAvatar,
   getIDByToken,
   updateExpiry,
+  sessionCheckToken,
+  distoryMovieDataByID,
+  checkingRoleID,
 };
