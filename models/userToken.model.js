@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../config.js";
 
 const UserToken = sequelize.define(
-  "UserToken",
+  "UserTokens",
   {
     // Model attributes are defined here
     userID: {

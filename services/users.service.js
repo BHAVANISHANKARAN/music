@@ -1,4 +1,5 @@
 import { UserDetails } from "../models/users.model.js";
+import { UserToken } from "../models/userToken.model.js";
 
 async function createUserQuery({ username, password }) {
   try {
@@ -20,4 +21,24 @@ async function getUserService() {
   return await UserDetails.findAll();
 }
 
-export default { createUserQuery, getUserByName, getUserService };
+async function addToken(userID, token) {
+  return await UserToken.create({ userID, token });
+}
+
+async function updateAvatar(url, userID) {
+  return await UserDetails.update(
+    { avatar: url },
+    {
+      where: {
+        id: userID,
+      },
+    }
+  );
+}
+export default {
+  createUserQuery,
+  getUserByName,
+  getUserService,
+  addToken,
+  updateAvatar,
+};

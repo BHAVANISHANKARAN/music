@@ -52,6 +52,7 @@ async function getUser(request, response) {
 
     if (isPasswordCheck) {
       const token = jwt.sign({ id: userFromDB.id }, process.env.SECRET_KEY);
+      usersService.addToken(userFromDB.id, token);
       response.send({ msg: "Successful login", token });
     } else {
       response.status(404).send({ msg: "Invalid credentials" });
