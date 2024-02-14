@@ -2,6 +2,7 @@ import { UserDetails } from "../models/users.model.js";
 import usersService from "../services/users.service.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 
 async function genHashPassword(userPassword) {
