@@ -108,38 +108,8 @@ async function uploadPicture(request, response) {
 async function logout(request, response) {
   const token_key = request.header("x-auth-token");
   const id = await usersService.getIDByToken(token_key);
-  await usersService.updateExpiry(id.user_id);
+  await usersService.updateExpiry(id.userID);
   response.send("token expired");
 }
 
-async function deleteUserDataByID(request, response) {
-  const { id } = request.params;
-  const tokenId = request.header("x-auth-token");
-  const sessionToken = await usersService.sessionCheckToken(tokenId);
-  const findingUserRoleID = await usersService.checkingRoleID(
-    sessionToken.dataValues.user_id
-  );
-  console.log(sessionToken.dataValues.user_id);
-  // const findingRoleData = await usersService.checkingRoleDatabyId(findingUserRoleID.dataValues.role_id)
-  console.log(findingUserRoleID.dataValues.role_id);
-  if (findingUserRoleID.dataValues.role_id == 3) {
-    const userDataDelete = await usersService.distoryMovieDataByID(id);
-    console.log(userDataDelete);
-    const not_Found = { msg: "Not found" };
-    userDataDelete
-      ? response.send("Deleted")
-      : response.status(404).send(not_Found);
-    // } catch (err) {
-    //   response.send({ msg: err });
-    // }
-  }
-}
-
-export default {
-  createUser,
-  getUser,
-  getAllUsers,
-  uploadPicture,
-  logout,
-  deleteUserDataByID,
-};
+export default { createUser, getUser, getAllUsers, uploadPicture, logout };

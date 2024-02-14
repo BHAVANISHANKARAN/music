@@ -10,7 +10,7 @@ const auth = async (request, response, next) => {
     const tokenCheck = await UserToken.findOne({
       where: {
         token: token,
-        expiry: "No",
+        expired: "No",
       },
     });
     if (tokenCheck) {

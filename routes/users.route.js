@@ -19,8 +19,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.route("/:id").delete(auth, usersController.deleteUserDataByID);
-
 router.route("/signup").post(usersController.createUser);
 router.route("/login").post(usersController.getUser);
 router.route("/").get(auth, usersController.getAllUsers);

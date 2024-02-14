@@ -44,32 +44,7 @@ async function getIDByToken(tokenKey) {
 }
 
 async function updateExpiry(id) {
-  return await UserToken.update({ expiry: "yes" }, { where: { user_id: id } });
-}
-
-async function sessionCheckToken(token) {
-  return await UserToken.findOne({
-    where: {
-      token: token,
-      expiry: "No",
-    },
-  });
-}
-
-async function checkingRoleID(userid) {
-  return await UserDetails.findOne({
-    where: {
-      id: userid,
-    },
-  });
-}
-
-async function distoryMovieDataByID(id) {
-  return await UserDetails.destroy({
-    where: {
-      id: id,
-    },
-  });
+  return await UserToken.update({ expired: "yes" }, { where: { userID: id } });
 }
 
 export default {
@@ -80,7 +55,4 @@ export default {
   updateAvatar,
   getIDByToken,
   updateExpiry,
-  sessionCheckToken,
-  distoryMovieDataByID,
-  checkingRoleID,
 };

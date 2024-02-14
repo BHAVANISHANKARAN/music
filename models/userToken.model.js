@@ -15,7 +15,11 @@ const UserToken = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    expiry: {
+    // expiry: {
+    //   type: DataTypes.STRING,
+    //   defaultValue: "No",
+    // },
+    expired: {
       type: DataTypes.STRING,
       defaultValue: "No",
     },
@@ -24,9 +28,9 @@ const UserToken = sequelize.define(
     // Other model options go here
   }
 );
-UserDetails.hasMany(UserToken, { onDelete: "cascade", hooks: true });
-UserDetails.hasMany(UserToken, { foreignKey: "user_id" });
-UserToken.belongsTo(UserDetails, { foreignKey: "user_id" });
+// UserDetails.hasMany(UserToken, { onDelete: "cascade", hooks: true });
+// UserDetails.hasMany(UserToken, { foreignKey: "user_id" });
+// UserToken.belongsTo(UserDetails, { foreignKey: "user_id" });
 // `sequelize.define` also returns the model
 // console.log(UserToken === sequelize.models.UserToken);
 
