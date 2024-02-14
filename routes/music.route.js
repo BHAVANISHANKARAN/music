@@ -5,6 +5,7 @@ import { auth } from "../middlewares/auth.js";
 const router = express.Router();
 router.route("/").get(auth, musicController.getAllMusic);
 router.route("/").post(auth, musicController.createMusic);
+router.route("/search").get(musicController.searchMusic);
 
 router
   .route("/:id")

@@ -108,7 +108,7 @@ async function uploadPicture(request, response) {
 async function logout(request, response) {
   const token_key = request.header("x-auth-token");
   const id = await usersService.getIDByToken(token_key);
-  await usersService.updateExpiry(id.userID);
+  await usersService.updateExpiry(id.user_id);
   response.send("token expired");
 }
 

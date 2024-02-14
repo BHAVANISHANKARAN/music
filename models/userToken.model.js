@@ -15,10 +15,7 @@ const UserToken = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // expiry: {
-    //   type: DataTypes.STRING,
-    //   defaultValue: "No",
-    // },
+
     expired: {
       type: DataTypes.STRING,
       defaultValue: "No",

@@ -21,20 +21,21 @@ async function getUserService() {
   return await UserDetails.findAll();
 }
 
-async function addToken(userID, token) {
-  return await UserToken.create({ user_id: userID, token });
+async function addToken(user_id, token) {
+  return await UserToken.create({ user_id: user_id, token });
 }
 
-async function updateAvatar(url, userID) {
+async function updateAvatar(url, user_id) {
   return await UserDetails.update(
     { avatar: url },
     {
       where: {
-        id: userID,
+        id: user_id,
       },
     }
   );
 }
+
 async function getIDByToken(tokenKey) {
   return await UserToken.findOne({
     where: {
@@ -44,7 +45,15 @@ async function getIDByToken(tokenKey) {
 }
 
 async function updateExpiry(id) {
-  return await UserToken.update({ expired: "yes" }, { where: { userID: id } });
+  return await UserToken.update({ expired: "yes" }, { where: { user_id: id } });
+}
+
+async function searchMusicQuery(searchTerm) {
+  return await Music.findAll({
+    where: {
+      artist: { [Op.like]: `%${searchTerm}%` },
+    },
+  });
 }
 
 export default {
@@ -55,4 +64,5 @@ export default {
   updateAvatar,
   getIDByToken,
   updateExpiry,
+  searchMusicQuery,
 };

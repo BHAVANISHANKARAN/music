@@ -9,7 +9,7 @@ import { v2 as cloudinary } from "cloudinary";
 import path from "path";
 import usersService from "./services/users.service.js";
 import { UserToken } from "./models/userToken.model.js";
-import { seedData } from "./written.js";
+import cors from "cors";
 
 // app.post("")
 // const sequelize = new Sequelize(
@@ -38,6 +38,7 @@ try {
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use("/music", musicRouter);
 app.use("/users", userRouter);
@@ -88,18 +89,7 @@ app.use("/users", userRouter);
 //   }
 // });
 
-// app.get("/musics", async function (request, response) {
-//   var arr = [];
-//   const searchTerm = request.query.search;
-//   console.log(searchTerm);
-//   const arrayOfObjects = await Music.findAll({
-//     where: {
-//       artist: { [Op.like]: `%${searchTerm}%` },
-//     },
-//   });
-//   // response.send(arrayOfObjects);
-//   console.log(arrayOfObjects.toJSON());
-// });
+// app.get("/musics", searchQuery());
 
 const PORT = 4000;
 app.get("/", function (request, response) {
