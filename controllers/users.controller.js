@@ -49,11 +49,12 @@ async function getUser(request, response) {
     const storedDBPassword = userFromDB.password;
     const isPasswordCheck = await bcrypt.compare(password, storedDBPassword);
     console.log(isPasswordCheck);
+
     if (isPasswordCheck) {
       const token = jwt.sign({ id: userFromDB.id }, process.env.SECRET_KEY);
       response.send({ msg: "Successful login", token });
     } else {
-      response.status.send({ msg: "Invalid credentials" });
+      response.status(404).send({ msg: "Invalid credentials" });
     }
   }
 }
