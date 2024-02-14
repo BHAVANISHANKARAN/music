@@ -13,6 +13,10 @@ const UserToken = sequelize.define(
     token: {
       type: DataTypes.STRING,
     },
+    expired: {
+      type: DataTypes.STRING,
+      defaultValue: "No",
+    },
   },
   {
     // Other model options go here

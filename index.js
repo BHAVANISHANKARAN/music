@@ -15,19 +15,6 @@ import { UserToken } from "./models/userToken.model.js";
 //   "postgres://postgres:Password@1@localhost:5432/zuci"
 // );
 
-const storage = multer.diskStorage({
-  // destination: "./uploads",
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-    );
-  },
-});
-
-const upload = multer({ storage });
-
 try {
   await sequelize.authenticate();
   console.log("Connection has been established successfully.");
@@ -110,51 +97,6 @@ app.use("/users", userRouter);
 //   // response.send(arrayOfObjects);
 //   console.log(arrayOfObjects.toJSON());
 // });
-
-cloudinary.config({
-  secure: true,
-});
-
-console.log(cloudinary.config());
-
-const uploadImage = async (imagePath) => {
-  // Use the uploaded file's name as the asset's public ID and
-  // allow overwriting the asset with new versions
-  const options = {
-    use_filename: true,
-    unique_filename: false,
-    overwrite: true,
-  };
-
-  try {
-    // Upload the image
-    const result = await cloudinary.uploader.upload(imagePath, options);
-    console.log(result);
-    return result;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-app.post("/users/pic", upload.single("avatar"), function (request, response) {
-  // response.send({ msg: "uploaded successfully" });
-  // console.log(request.file);
-  // console.log(request.body);
-  (async () => {
-    const imagePath = request.file.path;
-    const res = await uploadImage(imagePath);
-    console.log(res);
-    response.send({ msg: "uploaded successfully", image: res.secure_url });
-    var tokenKey = request.header("x-auth-token");
-    const id = await UserToken.findOne({
-      where: {
-        token: tokenKey,
-      },
-    });
-    await usersService.updateAvatar(res.secure_url, id.userID);
-    console.log("Updated...............");
-  })();
-});
 
 const PORT = 4000;
 app.get("/", function (request, response) {

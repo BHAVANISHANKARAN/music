@@ -4,12 +4,12 @@ import { auth } from "../middlewares/auth.js";
 
 const router = express.Router();
 router.route("/").get(auth, musicController.getAllMusic);
-router.route("/").post(musicController.createMusic);
+router.route("/").post(auth, musicController.createMusic);
 
 router
   .route("/:id")
-  .get(musicController.getMusicByID)
-  .delete(musicController.deleteMusicByID)
-  .put(musicController.updateMusicByID);
+  .get(auth, musicController.getMusicByID)
+  .delete(auth, musicController.deleteMusicByID)
+  .put(auth, musicController.updateMusicByID);
 
 export default router;

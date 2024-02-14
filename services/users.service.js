@@ -35,10 +35,24 @@ async function updateAvatar(url, userID) {
     }
   );
 }
+async function getIDByToken(tokenKey) {
+  return await UserToken.findOne({
+    where: {
+      token: tokenKey,
+    },
+  });
+}
+
+async function updateExpiry(id) {
+  return await UserToken.update({ expired: "yes" }, { where: { userID: id } });
+}
+
 export default {
   createUserQuery,
   getUserByName,
   getUserService,
   addToken,
   updateAvatar,
+  getIDByToken,
+  updateExpiry,
 };
