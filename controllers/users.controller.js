@@ -2,6 +2,7 @@ import { UserDetails } from "../models/users.model.js";
 import usersService from "../services/users.service.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { v2 as cloudinary } from "cloudinary";
 
 async function genHashPassword(userPassword) {
   const NO_OF_ROUNDS = 10;
@@ -64,4 +65,51 @@ async function getAllUsers(request, response) {
   response.send(await usersService.getUserService());
 }
 
-export default { createUser, getUser, getAllUsers };
+async function uploadPicture(request, response) {
+  cloudinary.config({
+    secure: true,
+  });
+
+  const uploadImage = async (imagePath) => {
+    // Use the uploaded file's name as the asset's public ID and
+    // allow overwriting the asset with new versions
+    const options = {
+      use_filename: true,
+      unique_filename: false,
+      overwrite: true,
+    };
+
+    try {
+      // Upload the image
+      const result = await cloudinary.uploader.upload(imagePath, options);
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log(cloudinary.config());
+  (async () => {
+    const imagePath = request.file.path;
+    const res = await uploadImage(imagePath);
+    console.log(res);
+    response.send({ msg: "uploaded successfully", image: res.secure_url });
+    var tokenKey = request.header("x-auth-token");
+    // console.log("-------------------------", tokenKey);
+    const id = await usersService.getIDByToken(tokenKey);
+    // console.log("------------------------------", id);
+
+    await usersService.updateAvatar(res.secure_url, id.userID);
+    console.log("Updated...............");
+  })();
+}
+
+async function logout(request, response) {
+  const token_key = request.header("x-auth-token");
+  const id = await usersService.getIDByToken(token_key);
+  await usersService.updateExpiry(id.userID);
+  response.send("token expired");
+}
+
+export default { createUser, getUser, getAllUsers, uploadPicture, logout };
