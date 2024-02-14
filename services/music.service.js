@@ -1,4 +1,5 @@
 import { Music } from "../models/music.model.js";
+import { Op, Sequelize } from "sequelize";
 
 async function getAllMusicQuery(dbQuery) {
   return await Music.findAll(dbQuery);
@@ -32,10 +33,19 @@ async function updateMusicByIDQuery(ans, id) {
   });
 }
 
+async function searchMusicQuery(searchTerm) {
+  return await Music.findAll({
+    where: {
+      artist: { [Op.like]: `%${searchTerm}%` },
+    },
+  });
+}
+
 export default {
   getAllMusicQuery,
   createMusicQuery,
   getMusicByIDQuery,
   deleteMusicByIDQuery,
   updateMusicByIDQuery,
+  searchMusicQuery,
 };

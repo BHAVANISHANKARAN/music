@@ -59,10 +59,9 @@ async function updateMusicByID(request, response) {
 }
 
 async function searchMusic(request, response) {
-  var arr = [];
   const searchTerm = request.query.search;
   console.log(searchTerm);
-  const arrayOfObjects = await searchMusicQuery(searchTerm);
+  var arrayOfObjects = await musicService.searchMusicQuery(searchTerm);
   response.send(arrayOfObjects);
 }
 
