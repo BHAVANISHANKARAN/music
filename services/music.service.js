@@ -36,7 +36,12 @@ async function updateMusicByIDQuery(ans, id) {
 async function searchMusicQuery(searchTerm) {
   return await Music.findAll({
     where: {
-      artist: { [Op.like]: `%${searchTerm}%` },
+      [Op.or]: [
+        { artist: { [Op.like]: `%${searchTerm}%` } },
+        { title: { [Op.like]: `%${searchTerm}%` } },
+        { releaseDate: { [Op.like]: `%${searchTerm}%` } },
+        { genre: { [Op.like]: `%${searchTerm}%` } },
+      ],
     },
   });
 }
