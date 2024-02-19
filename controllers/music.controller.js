@@ -69,7 +69,7 @@ async function getAlbumByGroupBy(request, response) {
   var ans = request.query;
   console.log(ans);
 
-  var getAllAlbum = await getAlbumByGroupByQuery(ans);
+  var getAllAlbum = await musicService.getAlbumByGroupByQuery(ans);
   response.send(getAllAlbum);
 }
 
