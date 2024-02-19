@@ -1,5 +1,6 @@
 import { Music } from "../models/music.model.js";
 import { Op, Sequelize } from "sequelize";
+import { sequelize } from "../config.js";
 
 async function getAllMusicQuery(dbQuery) {
   return await Music.findAll(dbQuery);
