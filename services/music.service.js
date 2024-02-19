@@ -47,7 +47,7 @@ async function searchMusicQuery(searchTerm) {
 }
 
 async function getAlbumByGroupByQuery(ans) {
-  return Music.findAll({
+  return await Music.findAll({
     attributes: [
       ans.groupby,
       [
