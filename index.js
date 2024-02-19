@@ -46,19 +46,22 @@ app.use("/users", userRouter);
 
 // app.get("/music", getAllMusic());
 
-// app.get("/musics", async function (request, response) {
-//   var ans = request.query;
-//   console.log(ans);
+app.get("/musics", async function (request, response) {
+  var ans = request.query;
+  console.log(ans);
 
-//   var getAllAlbum = await Music.findAll({
-//     attributes: [
-//       ans.name,
-//       [sequelize.fn("max", sequelize.col("popularity")), "max_popularity"],
-//     ],
-//     group: [ans.name],
-//   });
-//   response.send(getAllAlbum);
-// });
+  var getAllAlbum = await Music.findAll({
+    attributes: [
+      ans.groupby,
+      [
+        sequelize.fn(`${ans.func}`, sequelize.col(`${ans.column}`)),
+        `${ans.func}_${ans.column}`,
+      ],
+    ],
+    group: [ans.groupby],
+  });
+  response.send(getAllAlbum);
+});
 
 // app.get("/musics", async function (request, response) {
 //   var arr = [];
