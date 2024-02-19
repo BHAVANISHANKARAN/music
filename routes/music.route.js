@@ -6,7 +6,7 @@ const router = express.Router();
 router.route("/").get(auth, musicController.getAllMusic);
 router.route("/").post(auth, musicController.createMusic);
 router.route("/search").get(musicController.searchMusic);
-
+router.route("/groupby").get(musicController.getAlbumByGroupBy);
 router
   .route("/:id")
   .get(auth, musicController.getMusicByID)

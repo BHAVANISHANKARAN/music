@@ -65,6 +65,14 @@ async function searchMusic(request, response) {
   response.send(arrayOfObjects);
 }
 
+async function getAlbumByGroupBy(request, response) {
+  var ans = request.query;
+  console.log(ans);
+
+  var getAllAlbum = await getAlbumByGroupByQuery(ans);
+  response.send(getAllAlbum);
+}
+
 export default {
   getAllMusic,
   createMusic,
@@ -72,4 +80,5 @@ export default {
   deleteMusicByID,
   updateMusicByID,
   searchMusic,
+  getAlbumByGroupBy,
 };

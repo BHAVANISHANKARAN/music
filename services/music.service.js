@@ -46,6 +46,19 @@ async function searchMusicQuery(searchTerm) {
   });
 }
 
+async function getAlbumByGroupByQuery(ans) {
+  return Music.findAll({
+    attributes: [
+      ans.groupby,
+      [
+        sequelize.fn(`${ans.func}`, sequelize.col(`${ans.column}`)),
+        `${ans.func}_${ans.column}`,
+      ],
+    ],
+    group: [ans.groupby],
+  });
+}
+
 export default {
   getAllMusicQuery,
   createMusicQuery,
@@ -53,4 +66,5 @@ export default {
   deleteMusicByIDQuery,
   updateMusicByIDQuery,
   searchMusicQuery,
+  getAlbumByGroupByQuery,
 };
